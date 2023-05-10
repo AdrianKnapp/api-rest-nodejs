@@ -50,4 +50,65 @@ describe('transaction routes', () => {
       }),
     ])
   })
+
+  it('should be able to get a specific transaction', async () => {
+    const createTransactionsResponse = await request(app.server)
+      .post('/transactions')
+      .send({
+        title: 'Salary',
+        amount: 3000,
+        type: 'credit',
+      })
+
+    const cookies = createTransactionsResponse.get('Set-Cookie')
+
+    const listTransactionsResponse = await request(app.server)
+      .get('/transactions')
+      .set('Cookie', cookies)
+      .expect(200)
+
+    const transactionId = listTransactionsResponse.body.transactions[0].id
+
+    const transactionByIdResponse = await request(app.server)
+      .get(`/transactions/${transactionId}`)
+      .set('Cookie', cookies)
+      .expect(200)
+
+    expect(transactionByIdResponse.body.transaction).toEqual(
+      expect.objectContaining({
+        title: 'Salary',
+        amount: 3000,
+      }),
+    )
+  })
+
+  it('should be able to get the summary', async () => {
+    const createTransactionsResponse = await request(app.server)
+      .post('/transactions')
+      .send({
+        title: 'Salary',
+        amount: 3000,
+        type: 'credit',
+      })
+
+    const cookies = createTransactionsResponse.get('Set-Cookie')
+
+    await request(app.server)
+      .post('/transactions')
+      .set('Cookie', cookies)
+      .send({
+        title: 'Debit',
+        amount: 2000,
+        type: 'debit',
+      })
+
+    const summaryResponse = await request(app.server)
+      .get('/transactions/summary')
+      .set('Cookie', cookies)
+      .expect(200)
+
+    expect(summaryResponse.body.summary).toEqual({
+      amount: 1000,
+    })
+  })
 })
