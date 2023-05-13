@@ -10,9 +10,20 @@
     "knex": "node --no-warnings --loader tsx ./node_modules/.bin/knex",
     "test": "vitest"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@fastify/cookie": "^8.3.0",
+    "dotenv": "^16.0.3",
+    "fastify": "^4.17.0",
+    "knex": "^2.4.2",
+    "pg": "^8.10.0",
+    "zod": "^3.21.4"
+  },
   "devDependencies": {
     "@rocketseat/eslint-config": "^1.2.0",
     "@types/node": "^18.16.3",
@@ -22,14 +33,7 @@
     "tsup": "^6.7.0",
     "tsx": "^3.12.7",
     "typescript": "^5.0.4",
-    "vitest": "^0.31.0"
-  },
-  "dependencies": {
-    "@fastify/cookie": "^8.3.0",
-    "dotenv": "^16.0.3",
-    "fastify": "^4.17.0",
-    "knex": "^2.4.2",
-    "sqlite3": "^5.1.6",
-    "zod": "^3.21.4"
+    "vitest": "^0.31.0",
+    "sqlite3": "^5.1.6"
   }
 }
